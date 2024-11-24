@@ -3,8 +3,8 @@ from requests import Session
 
 import argparse
 
-from webvpn_cookie.cas_service import casService
-from webvpn_cookie.util import replace_value_in_config, backup_file
+from cas_service import casService
+from util import replace_value_in_config, backup_file
 
 
 def getCookie(username,password):
