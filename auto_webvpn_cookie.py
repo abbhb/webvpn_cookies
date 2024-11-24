@@ -14,7 +14,7 @@ def getCookie(username,password):
     server = casService(svr_session)
 
     server.Login("https://webvpn.beihua.edu.cn/login", username=username, password=password)
-    resp = server.session.get(url='https://webvpn.beihua.edu.cn/login', allow_redirects=True)
+    resp = server.session.get(url='https://webvpn.beihua.edu.cn/login', allow_redirects=True, verify=False)
     needCookie = ""
     if resp.status_code == 302:
         print("如果使用了文件缓存模式，请删除文件，认证已经过期!\n")

@@ -39,12 +39,12 @@ class casService(object):
     def Login(self,serviceUrl = "",username = None,password = None):
         global _pwdDefaultEncryptSalt
         global postdata
-        response = self.svr_session.get(url=serviceUrl,allow_redirects=False)
+        response = self.svr_session.get(url=serviceUrl,allow_redirects=False, verify=False)
         if response.status_code == 200:            
             return True
         self.cas_url = response.headers["Location"]
 
-        cas_response = self.session.get(self.cas_url,allow_redirects = False)
+        cas_response = self.session.get(self.cas_url,allow_redirects = False, verify=False)
         print(cas_response.text)
         if cas_response.status_code == 200:#登录界面
             if username == None or password == None:
@@ -87,10 +87,10 @@ class casService(object):
 
             postdata["username"]=username
             postdata["password"]=encryptPassword
-            auth_response = self.session.post(self.cas_url,data = postdata,allow_redirects = False)
+            auth_response = self.session.post(self.cas_url,data = postdata,allow_redirects = False, verify=False)
             if auth_response.status_code == 302:
                 url_with_ticket = auth_response.headers["location"]
-                confirm_response = self.svr_session.get(url = url_with_ticket,allow_redirects = True)
+                confirm_response = self.svr_session.get(url = url_with_ticket,allow_redirects = True, verify=False)
                 if confirm_response.status_code == 200:
                     print("logon on success")
                     print(self.session.cookies)
@@ -104,7 +104,7 @@ class casService(object):
         else:
             print("cas cookies still valid")
             url_with_ticket = cas_response.headers["location"]
-            confirm_response = self.svr_session.get(url = url_with_ticket,allow_redirects = True)
+            confirm_response = self.svr_session.get(url = url_with_ticket,allow_redirects = True, verify=False)
             if confirm_response.status_code == 200:
                 print("nopassword login success")
                 return True
